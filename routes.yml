@@ -1,0 +1,15 @@
+routes:
+  home:
+    path: /
+    controller: App\Controllers\HomeController::index
+    methods: [GET]
+
+  about:
+    path: /about
+    controller: App\Controllers\HomeController::about
+    methods: [GET]
+
+  user_profile:
+    path: /user/{id}
+    controller: App\Controllers\HomeController::userProfile
+    methods: [GET]
