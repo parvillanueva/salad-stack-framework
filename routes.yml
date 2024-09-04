@@ -38,3 +38,8 @@ routes:
     path: /admin/change-password
     controller: App\Controllers\Admin\SecurityController::change_password
     methods: [GET]
+
+  admin_change_password_submit:
+    path: /admin/change-password/submit
+    controller: App\Controllers\Admin\SecurityController::change_password_submit
+    methods: [POST]

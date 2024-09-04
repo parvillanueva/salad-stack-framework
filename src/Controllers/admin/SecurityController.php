@@ -23,7 +23,6 @@ class SecurityController extends Controller
     {
 
         $userId = $this->App->session->get('user_id');
-        $userName = $this->App->session->get('user_name');
         if($userId){
             $this->App->response->redirect("/admin");
         }
@@ -35,7 +34,6 @@ class SecurityController extends Controller
     {
 
         $userId = $this->App->session->get('user_id');
-        $userName = $this->App->session->get('user_name');
         if(!$userId){
             $this->App->response->redirect("/admin");
         }
@@ -47,7 +45,11 @@ class SecurityController extends Controller
 
     public function change_password()
     {
-       echo "change password";
+        $userId = $this->App->session->get('user_id');
+        if(!$userId){
+            $this->App->response->redirect("/admin");
+        }
+        $this->render('admin/change-password/index');
     }
     
     public function login_submit()
@@ -79,5 +81,45 @@ class SecurityController extends Controller
         $this->App->session->set('user_id', $stmt['id']);
         $this->App->session->set('user_name', $stmt['username']);
         $this->App->response->redirect("/admin/");
+    }
+
+    public function change_password_submit()
+    {
+        $userId = $this->App->session->get('user_id');
+        if(!$userId){
+            $this->App->response->redirect("/admin");
+        }
+
+        $userId = $this->App->session->get('user_id');
+        $current_password = $this->App->request->getBody('current_password');
+        $new_password = $this->App->request->getBody('new_password');
+        $confirm_password = $this->App->request->getBody('confirm_password');
+        
+        if(
+            trim($current_password) == "" || 
+            trim($new_password) == "" || 
+            trim($confirm_password) == ""
+        ){
+            $this->App->session->setFlash("notification_message", "Fill all the required fields.");
+            $this->App->response->redirect("/admin/change-password");
+        }
+
+        $stmt = $this->user->findById($userId);
+        if (!password_verify($current_password, $stmt['password'])) {
+            $this->App->session->setFlash("notification_message", "Current password not matched");
+            $this->App->response->redirect("/admin/change-password");
+            return;
+        } 
+
+        if(trim($new_password) != trim($confirm_password)){
+            $this->App->session->setFlash("notification_message", "New and confirm password not matched.");
+            $this->App->response->redirect("/admin/change-password");
+        }
+
+        if($this->user->updatePassword($userId, $new_password)){
+            $this->App->session->setFlash("notification_message", "Password successfuly updated.");
+            $this->App->response->redirect("/admin/logout");
+        }
+
     }
 }
