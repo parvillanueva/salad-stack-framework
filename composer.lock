@@ -145,16 +145,16 @@
         },
         {
             "name": "salad-stack/core",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/parvillanueva/salad-stack-core.git",
-                "reference": "626551532b32c4aba34f1e33c3f457f8c29ddc5e"
+                "url": "https://github.com/salad-stack/salad-stack-core.git",
+                "reference": "922ce0c82495f0cf9f6cf9798c0c3bfa9b32d8e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parvillanueva/salad-stack-core/zipball/626551532b32c4aba34f1e33c3f457f8c29ddc5e",
-                "reference": "626551532b32c4aba34f1e33c3f457f8c29ddc5e",
+                "url": "https://api.github.com/repos/salad-stack/salad-stack-core/zipball/922ce0c82495f0cf9f6cf9798c0c3bfa9b32d8e0",
+                "reference": "922ce0c82495f0cf9f6cf9798c0c3bfa9b32d8e0",
                 "shasum": ""
             },
             "require": {
@@ -177,10 +177,10 @@
                 "MIT"
             ],
             "support": {
-                "issues": "https://github.com/parvillanueva/salad-stack-core/issues",
-                "source": "https://github.com/parvillanueva/salad-stack-core/tree/1.0.3"
+                "issues": "https://github.com/salad-stack/salad-stack-core/issues",
+                "source": "https://github.com/salad-stack/salad-stack-core/tree/1.0.4"
             },
-            "time": "2024-09-04T00:15:34+00:00"
+            "time": "2024-09-04T02:12:37+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

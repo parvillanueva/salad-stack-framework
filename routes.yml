@@ -23,3 +23,18 @@ routes:
     path: /admin/login
     controller: App\Controllers\Admin\SecurityController::login
     methods: [GET]
+
+  admin_logout:
+    path: /admin/logout
+    controller: App\Controllers\Admin\SecurityController::logout
+    methods: [GET]
+
+  admin_login_submit:
+    path: /admin/login/submit
+    controller: App\Controllers\Admin\SecurityController::login_submit
+    methods: [POST]
+  
+  admin_change_password:
+    path: /admin/change-password
+    controller: App\Controllers\Admin\SecurityController::change_password
+    methods: [GET]

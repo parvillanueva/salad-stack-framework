@@ -6,12 +6,14 @@ use Salad\Core\Controller;
 
 class HomeController extends Controller
 {
+    protected $App;
     public function __construct()
     {
         parent::__construct();   
-        $userId = Application::$app->session->get('user');
+        $this->App = Application::$app;
+        $userId = $this->App->session->get('user_id');
         if(!$userId){
-            Application::$app->response->redirect("/admin/login");
+            $this->App->response->redirect("/admin/login");
         }
     }
     

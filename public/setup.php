@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="admin_user" class="form-label">Admin Email:</label>
                 </div>
                 <div class="col-sm-8">
-                    <input type="text" id="admin_user" name="admin_user" class="form-control" value="<?php echo htmlspecialchars($adminUser ?? ''); ?>" required>
+                    <input type="email" id="admin_user" name="admin_user" class="form-control" value="<?php echo htmlspecialchars($adminUser ?? ''); ?>" required>
                 </div>
             </div>
             <div class="row mb-3">

@@ -3,6 +3,7 @@
 <head>
     {% include 'template/admin/header.twig' %}
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         {% include 'template/admin/navigation.twig' %}
@@ -11,7 +12,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
+                            <h1 class="m-0">{% block page_name %}{% endblock %}</h1>
                         </div>
                     </div>
                 </div>

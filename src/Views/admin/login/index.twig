@@ -7,7 +7,12 @@
   </div>
   <div class="card">
       <div class="card-body login-card-body">
-          <form action="{{ '/admin/login/submit' | base_url }}" method="post">
+            {% if get_flash_message("notification_message") %}
+                <div class="alert alert-warning" role="alert">
+                    {{get_flash_message("notification_message")}}
+                </div>
+            {% endif %}
+            <form action="{{ '/admin/login/submit' | base_url }}" method="post">
               <div class="input-group mb-3">
                   <input type="text" class="form-control" name="email" placeholder="Email Address" required>
                   <div class="input-group-append">
