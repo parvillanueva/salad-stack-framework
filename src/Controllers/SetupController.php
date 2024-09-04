@@ -27,7 +27,7 @@ class SetupController
             // add admin password
             $admin_email = $_ENV['ADMIN_USER'];
             $admin_user = explode('@', $admin_email)[0];
-            $admin_password = $_ENV['ADMIN_PASS'];
+            $admin_password = password_hash($_ENV['ADMIN_PASS'], PASSWORD_BCRYPT);
             $this->db->query("INSERT INTO users (id, username, email, password) VALUES ($site_id, '$admin_user', '$admin_email', '$admin_password'); ");
 
             // add site basic settings

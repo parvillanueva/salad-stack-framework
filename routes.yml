@@ -14,7 +14,12 @@ routes:
     controller: App\Controllers\SetupController::index
     methods: [GET]
 
-  user_profile:
-    path: /user/{id}
-    controller: App\Controllers\HomeController::userProfile
+  admin_home:
+    path: /admin
+    controller: App\Controllers\Admin\HomeController::index
+    methods: [GET]
+
+  admin_login:
+    path: /admin/login
+    controller: App\Controllers\Admin\SecurityController::login
     methods: [GET]

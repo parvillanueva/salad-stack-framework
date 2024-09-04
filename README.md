@@ -13,7 +13,29 @@ To confirm Composer on our system use:
 composer -V
 ```
 
-## Install SaladStack
+---
+# Install SaladStack on Local Machine
+### Create a directory in your webroot folder: Here it is ‘salad‘.
+```bash
+mkdir salad
+```
+
+### Now switch to the created directory.
+```bash
+cd salad
+```
+### install SaladStack Framework
+```bash
+composer create-project salad-stack/framework .
+```
+### Run SaladStack Locally
+```bash
+cd public && php -S localhost:8000
+```
+
+---
+
+# Install SaladStack on Linux
 ### Create a directory in your webroot folder: Here it is ‘salad‘.
 ```bash
 mkdir /var/www/html/salad
