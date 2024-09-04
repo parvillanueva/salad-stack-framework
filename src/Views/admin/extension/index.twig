@@ -19,7 +19,10 @@
           <tbody>
             {% for feature in features %}
             <tr>
-              <td>{{ feature.name }}</td>
+              <td>
+                {{ feature.name }}<br />
+                v{{ feature.version }} 
+              </td>
               <td>
                 <i class="{{ feature.extra['salad-extension'].icon }}"></i> <strong>{{ feature.extra['salad-extension'].title }}</strong><br />
                 {{ feature.description }}
