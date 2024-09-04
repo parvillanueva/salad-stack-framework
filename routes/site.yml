@@ -1,0 +1,15 @@
+routes:
+  home:
+    path: /
+    controller: App\Controllers\HomeController::index
+    methods: [GET]
+
+  about:
+    path: /about
+    controller: App\Controllers\HomeController::about
+    methods: [GET]
+
+  setup:
+    path: /setup
+    controller: App\Controllers\SetupController::index
+    methods: [GET]

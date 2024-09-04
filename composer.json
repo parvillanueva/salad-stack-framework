@@ -13,7 +13,8 @@
     "twig/twig": "^3.0",
     "vlucas/phpdotenv": "^5.6@dev",
     "symfony/yaml": "7.2.x-dev",
-    "salad-stack/core": "^1.0"
+    "salad-stack/core": "^1.0",
+    "salad-dressing/mailer": "^0.0.3"
   },
   "scripts": {
       "migrate": "php migrations/migrate.php",

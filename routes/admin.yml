@@ -1,19 +1,4 @@
 routes:
-  home:
-    path: /
-    controller: App\Controllers\HomeController::index
-    methods: [GET]
-
-  about:
-    path: /about
-    controller: App\Controllers\HomeController::about
-    methods: [GET]
-
-  setup:
-    path: /setup
-    controller: App\Controllers\SetupController::index
-    methods: [GET]
-
   admin_home:
     path: /admin
     controller: App\Controllers\Admin\HomeController::index
@@ -43,3 +28,18 @@ routes:
     path: /admin/change-password/submit
     controller: App\Controllers\Admin\SecurityController::change_password_submit
     methods: [POST]
+
+  admin_extension:
+    path: /admin/extension
+    controller: App\Controllers\Admin\ExtensionController::index
+    methods: [GET]
+  
+  admin_extension_enable:
+    path: /admin/extension/enable
+    controller: App\Controllers\Admin\ExtensionController::enable
+    methods: [GET]
+  
+  admin_extension_disabled:
+    path: /admin/extension/disable
+    controller: App\Controllers\Admin\ExtensionController::disable
+    methods: [GET]

@@ -1,3 +1,17 @@
+<style>
+    .nav-sidebar .nav-item.extension>.nav-link {
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-sidebar .nav-item.extension>.nav-link>p {
+        flex-grow: 4;
+    }
+
+    .nav-sidebar .nav-item.extension>.nav-link>.fa-check {
+        color: #b7f958;
+    }
+</style>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
   <ul class="navbar-nav">
@@ -33,14 +47,17 @@
                         <p> Details </p>
                     </a>
                 </li>
-
-                <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-envelope"></i>
-                        <p> Email </p>
-                    </a>
-                </li>
                 <li class="nav-header">Extensions</li>
+                {% for extension in get_extensions('features') %}
+                    <li class="nav-item extension">
+                        
+                        <a href="{{ '/admin/extension/' | base_url }}?name={{extension.name}}" class="nav-link">
+                            <i class="nav-icon {{ extension.extra['salad-extension'].icon}}"></i>
+                            <p> {{ extension.extra['salad-extension'].title}} </p>
+                            <i class="nav-icon fas {{ check_extension_enabled(extension.name) ? 'fa fa-check' : 'fa fa-circle' }}"></i>
+                        </a>
+                    </li>
+                {% endfor %}
                 <li class="nav-header">Account</li>
                 <li class="nav-item">
                     <a href="{{ '/admin/change-password' | base_url }}" class="nav-link">
