@@ -43,21 +43,35 @@
 
                 <li class="nav-item">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-info"></i>
+                        <i class="nav-icon fas fa-paint-roller"></i>
+                        <p> Appearance </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-pen"></i>
                         <p> Details </p>
                     </a>
                 </li>
                 <li class="nav-header">Extensions</li>
                 {% for extension in get_extensions('features') %}
                     <li class="nav-item extension">
-                        
-                        <a href="{{ '/admin/extension/' | base_url }}?name={{extension.name}}" class="nav-link">
-                            <i class="nav-icon {{ extension.extra['salad-extension'].icon}}"></i>
-                            <p> {{ extension.extra['salad-extension'].title}} </p>
-                            <i class="nav-icon fas {{ check_extension_enabled(extension.name) ? 'fa fa-check' : 'fa fa-circle' }}"></i>
-                        </a>
+                        {% if check_extension_enabled(extension.name) %}
+                            <a href="{{ extension.extra.navigation.admin | base_url }}" class="nav-link">
+                                <i class="nav-icon {{ extension.extra['salad-extension'].icon}}"></i>
+                                <p> {{ extension.extra['salad-extension'].title}} </p>
+                            </a>
+                        {% endif %}
                     </li>
                 {% endfor %}
+
+                <li class="nav-item">
+                    <a href="{{ '/admin/extension/' | base_url }}" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p> Manage Extensions </p>
+                    </a>
+                </li>
                 <li class="nav-header">Account</li>
                 <li class="nav-item">
                     <a href="{{ '/admin/change-password' | base_url }}" class="nav-link">

@@ -1,13 +1,41 @@
 {% extends 'template/admin/_post.twig' %}
-{% block page_name %}Extension{% endblock %}
+{% block page_name %}Manage Extensions{% endblock %}
 {% block body %}
   <section class="content">
       <div class="card">
-        <div class="card-header">
+        {# <div class="card-header">
           <h4>{{ Feature }}</h4>
           <p>{{ Description }}</p>
           <a href="{{ '/admin/extension/enable' | base_url }}?name={{extension_name}}" class="btn btn-secondary">Enable</a>
-        </div>
+        </div> #}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">package</th>
+              <th scope="col">Extension</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for feature in features %}
+            <tr>
+              <td>{{ feature.name }}</td>
+              <td>
+                <i class="{{ feature.extra['salad-extension'].icon }}"></i> <strong>{{ feature.extra['salad-extension'].title }}</strong><br />
+                {{ feature.description }}
+              </td>
+              <td>
+                {% if check_extension_enabled(feature.name) %}
+                    <a href="#" disabled class="btn btn-secondary disabled">Enable</a>
+                    <a href="{{ '/admin/extension/disable' | base_url }}?name={{feature.name }}" class="btn btn-danger">Disable</a>
+                {% else %}
+                    <a href="{{ '/admin/extension/enable' | base_url }}?name={{feature.name }}" class="btn btn-success">Enable</a>
+                    <a href="#" disabled class="btn btn-secondary disabled">Disable</a>
+                {% endif %}
+              </td>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
   </section>
 {% endblock %}

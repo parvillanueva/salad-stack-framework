@@ -21,11 +21,9 @@ class ExtensionController extends Controller
     public function index()
     {
       $name = $this->App->request->getBody('name');
-      $package = $this->App->extension->getFeature($name);
+      $packages = $this->App->extension->getFeatureList();
       $this->render('admin/extension/index', [
-        "Feature"=> $package['extra']['salad-extension']['title'] ?? "",
-        "Description"=> $package['description'] ?? "",
-        "extension_name"=> $package['name']?? "",
+        "features"=> $packages
       ]);
     }
     
@@ -38,8 +36,8 @@ class ExtensionController extends Controller
       $install_path = $package['install-path'];
       $package_path = Application::$ROOT_DIR ."/vendor/" . $this->normalizePath($install_path);
 
-      // copy resources 
-      $files = $this->copyDirectory($package_path . "/resources/", Application::$ROOT_DIR . "/src/");
+      // copy migration 
+      $files = $this->copyDirectory($package_path . "/migrations/", Application::$ROOT_DIR . "/src/Migrations");
 
       // run migration
       if(isset($package['extra']['resources']['migration'])){
@@ -48,9 +46,13 @@ class ExtensionController extends Controller
         }
       };
 
+      //update routes
+      $this->copyDirectory($package_path . "/routes/", Application::$ROOT_DIR . "/routes/");
+
+
       //update .env file
       $this->updateEnvFile("EXTENSION_" . $package['name'], "true");
-      $this->App->response->redirect("/admin");
+      $this->App->response->redirect("/admin/extension");
     
     }
     
@@ -66,21 +68,19 @@ class ExtensionController extends Controller
         }
       };
 
-      // var_dump($package);
       $install_path = $package['install-path'];
       $package_path = Application::$ROOT_DIR ."/vendor/" . $this->normalizePath($install_path);
 
-      // get resources 
-      $files = $this->scanDirRecursive($package_path . "/resources/", $install_path);
-      foreach ($files as $key => $file) {
-        if (file_exists($file)) {
-          unlink($file);
+      $routes = $this->scanDirRoutes($package_path . "/routes/", $install_path);
+      foreach ($routes as $key => $route) {
+        if (file_exists($route)) {
+          unlink($route);
         }
       }
 
-      // //update .env file
+      //update .env file
       $this->updateEnvFile("EXTENSION_" . $package['name'], "false");
-      $this->App->response->redirect("/admin");
+      $this->App->response->redirect("/admin/extension");
     
     }
 
@@ -140,7 +140,29 @@ class ExtensionController extends Controller
     }
 
     return $result;
-}
+  }
+
+  function scanDirRoutes($dir, $install_path) {
+    $package_path = Application::$ROOT_DIR ."/vendor/" . $this->normalizePath($install_path);
+    $result = [];
+    if (!is_dir($dir)) {
+        return $result;
+    }
+    $files = scandir($dir);
+    foreach ($files as $file) {
+        if ($file === '.' || $file === '..') {
+            continue;
+        }
+        $filePath = $dir . DIRECTORY_SEPARATOR . $file;
+        if (is_dir($filePath)) {
+          $result = array_merge($result, $this->scanDirRecursive($filePath, $install_path));
+        } else {
+          $result[] = str_replace($package_path . "/routes/", Application::$ROOT_DIR . "/routes",  $filePath );
+        }
+    }
+
+    return $result;
+  }
 
   function normalizePath($path) {
     $parts = explode('/', $path);

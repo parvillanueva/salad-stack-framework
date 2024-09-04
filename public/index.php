@@ -3,7 +3,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Salad\Core\Application;
 use Salad\Core\Router;
-use Salad\Controllers\HomeController;
 use Symfony\Component\Yaml\Yaml;
 use Dotenv\Dotenv;
 

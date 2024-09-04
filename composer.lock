@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c8df96fe6448539d65ad92d07d66e96",
+    "content-hash": "4ca3e90974a4da7b954f23791a38b4ab",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -226,16 +226,16 @@
         },
         {
             "name": "salad-dressing/mailer",
-            "version": "0.0.2",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/salad-stack/salad-dressing-mailer.git",
-                "reference": "3399cb3a64fdd25af6fb7321765438c595166545"
+                "reference": "36d0247cc160f7aa22067b28d22e700a7209cf61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/salad-stack/salad-dressing-mailer/zipball/3399cb3a64fdd25af6fb7321765438c595166545",
-                "reference": "3399cb3a64fdd25af6fb7321765438c595166545",
+                "url": "https://api.github.com/repos/salad-stack/salad-dressing-mailer/zipball/36d0247cc160f7aa22067b28d22e700a7209cf61",
+                "reference": "36d0247cc160f7aa22067b28d22e700a7209cf61",
                 "shasum": ""
             },
             "require": {
@@ -251,30 +251,10 @@
                 "resources": {
                     "migration": [
                         "CreateMailerTable.php"
-                    ],
-                    "routes": [
-                        {
-                            "salad_dressing_mailer": {
-                                "path": "/admin/mailer",
-                                "controller": "App\\Controllers\\Admin\\MailerController::index",
-                                "methods": "[GET]"
-                            }
-                        },
-                        {
-                            "salad_dressing_mailer_submit": {
-                                "path": "/admin/mailer/submit",
-                                "controller": "App\\Controllers\\Admin\\MailerController::submit",
-                                "methods": "[POST]"
-                            }
-                        },
-                        {
-                            "salad_dressing_mailer_test": {
-                                "path": "/admin/mailer/test",
-                                "controller": "App\\Controllers\\Admin\\MailerController::test",
-                                "methods": "[POST]"
-                            }
-                        }
                     ]
+                },
+                "navigation": {
+                    "admin": "/admin/mailer"
                 }
             },
             "autoload": {
@@ -296,9 +276,9 @@
             "description": "SaladStack Mailer extension",
             "support": {
                 "issues": "https://github.com/salad-stack/salad-dressing-mailer/issues",
-                "source": "https://github.com/salad-stack/salad-dressing-mailer/tree/0.0.2"
+                "source": "https://github.com/salad-stack/salad-dressing-mailer/tree/1.0.0"
             },
-            "time": "2024-09-04T07:46:18+00:00"
+            "time": "2024-09-04T13:59:10+00:00"
         },
         {
             "name": "salad-stack/core",
