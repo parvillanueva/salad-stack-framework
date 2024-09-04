@@ -9,6 +9,11 @@ routes:
     controller: App\Controllers\HomeController::about
     methods: [GET]
 
+  setup:
+    path: /setup
+    controller: App\Controllers\SetupController::index
+    methods: [GET]
+
   user_profile:
     path: /user/{id}
     controller: App\Controllers\HomeController::userProfile
