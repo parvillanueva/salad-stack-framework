@@ -19,14 +19,14 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">Home</a>
+          <a href="{{ '/admin/' | base_url }}" class="nav-link">Home</a>
       </li>
   </ul>
 </nav>
 
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="#" class="brand-link">
+    <a href="{{ '/admin/' | base_url }}" class="brand-link">
         <span class="brand-text font-weight-light">{{ get_site_title() }}</span>
     </a>
 
@@ -35,7 +35,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ '/admin/' | base_url }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p> Dashboard </p>
                     </a>
