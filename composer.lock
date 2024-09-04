@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d79cf919b15a12f4b64e2ee71e9e8913",
+    "content-hash": "6bf9682a81ae9167e40e9d6f76c0465c",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -145,16 +145,16 @@
         },
         {
             "name": "salad-stack/core",
-            "version": "1.0.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/parvillanueva/salad-stack-core.git",
-                "reference": "f195a2e4b775400b51b54ed9d66234e3942d30f2"
+                "reference": "626551532b32c4aba34f1e33c3f457f8c29ddc5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parvillanueva/salad-stack-core/zipball/f195a2e4b775400b51b54ed9d66234e3942d30f2",
-                "reference": "f195a2e4b775400b51b54ed9d66234e3942d30f2",
+                "url": "https://api.github.com/repos/parvillanueva/salad-stack-core/zipball/626551532b32c4aba34f1e33c3f457f8c29ddc5e",
+                "reference": "626551532b32c4aba34f1e33c3f457f8c29ddc5e",
                 "shasum": ""
             },
             "require": {
@@ -178,9 +178,9 @@
             ],
             "support": {
                 "issues": "https://github.com/parvillanueva/salad-stack-core/issues",
-                "source": "https://github.com/parvillanueva/salad-stack-core/tree/1.0.1"
+                "source": "https://github.com/parvillanueva/salad-stack-core/tree/1.0.3"
             },
-            "time": "2024-09-03T04:00:43+00:00"
+            "time": "2024-09-04T00:15:34+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
