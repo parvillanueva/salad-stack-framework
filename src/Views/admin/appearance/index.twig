@@ -1,0 +1,34 @@
+{% extends 'template/admin/_post.twig' %}
+{% block body %}
+  <section class="content">
+    <form action="{{ '/admin/appearance/save' | base_url }}" method="post">
+      {% if get_flash_message("notification_warning") %}
+          <div class="alert alert-warning" role="alert">
+              {{get_flash_message("notification_warning")}}
+          </div>
+      {% endif %}
+      {% if get_flash_message("notification_success") %}
+          <div class="alert alert-success" role="alert">
+              {{get_flash_message("notification_success")}}
+          </div>
+      {% endif %}
+      <div class="card-body">
+        <h2>Site Appearance</h2>
+        <p>Customize styles and other variables.</p>
+
+        <h4>Custom Header</h4>
+        <p>Add HTML to be displayed at the very top of the page, above SaladStack's own header.</p>
+        <textarea class="form-control mb-5" name="custom_header" rows=10 placeholder="Custom Header"></textarea>
+        {{app.request.uri}}
+
+        <h4>Custom Styles</h4>
+        <p>Customize your appearance by adding your own CSS code to be applied on top of SaladStack's default styles.</p>
+        <textarea class="form-control mb-5" rows=10  name="custom_styles" placeholder="Custom Stlyes"></textarea>
+        
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

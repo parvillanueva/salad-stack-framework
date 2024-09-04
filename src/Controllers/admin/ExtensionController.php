@@ -61,13 +61,6 @@ class ExtensionController extends Controller
       $name = $this->App->request->getBody('name');
       $package = $this->App->extension->getFeature($name);
 
-      // run rollback
-      if(isset($package['extra']['resources']['migration'])){
-        foreach ($package['extra']['resources']['migration'] as $key => $migration) {
-          (new Connection())->rollbackSpecific($migration);
-        }
-      };
-
       $install_path = $package['install-path'];
       $package_path = Application::$ROOT_DIR ."/vendor/" . $this->normalizePath($install_path);
 
@@ -75,6 +68,13 @@ class ExtensionController extends Controller
       foreach ($routes as $key => $route) {
         if (file_exists($route)) {
           unlink($route);
+        }
+      }
+
+      $migrations = $this->scanDirRecursive($package_path . "/migrations/", $install_path);
+      foreach ($migrations as $key => $migration) {
+        if (file_exists($migration)) {
+          unlink($migration);
         }
       }
 
@@ -135,7 +135,7 @@ class ExtensionController extends Controller
         if (is_dir($filePath)) {
           $result = array_merge($result, $this->scanDirRecursive($filePath, $install_path));
         } else {
-          $result[] = str_replace($package_path . "/resources/", Application::$ROOT_DIR . "/src",  $filePath );
+          $result[] = str_replace($package_path . "/migrations/", Application::$ROOT_DIR . "/src/Migrations",  $filePath );
         }
     }
 

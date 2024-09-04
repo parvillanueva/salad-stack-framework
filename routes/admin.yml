@@ -43,3 +43,13 @@ routes:
     path: /admin/extension/disable
     controller: App\Controllers\Admin\ExtensionController::disable
     methods: [GET]
+  
+  admin_appearance:
+    path: /admin/appearance
+    controller: App\Controllers\Admin\AppearanceController::index
+    methods: [GET]
+  
+  admin_appearance_save:
+    path: /admin/appearance/save
+    controller: App\Controllers\Admin\AppearanceController::save
+    methods: [GET]
