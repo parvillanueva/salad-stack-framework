@@ -57,7 +57,8 @@
                 {% for extension in get_extensions('features') %}
                     <li class="nav-item extension">
                         {% if check_extension_enabled(extension.name) %}
-                            <a href="{{ '/admin/extension/view' | base_url }}?name={{ extension.name }}" class="nav-link {{ get_request_uri() == extension.extra.navigation.admin ? "active" : ""}}">
+                        {% set url = ('/admin/extension/view' | base_url) ~ "?name=" ~ extension.name %}
+                            <a href="{{ '/admin/extension/view' | base_url }}?name={{ extension.name }}" class="nav-link {{ get_request_uri() | base_url == url ? "active" : ""}}">
                                 <i class="nav-icon {{ extension.extra['salad-extension'].icon}}"></i>
                                 <p> {{ extension.extra['salad-extension'].title}} </p>
                             </a>

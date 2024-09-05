@@ -39,6 +39,11 @@ routes:
     controller: App\Controllers\Admin\ExtensionController::view
     methods: [GET]
 
+  admin_extension_remove_data:
+    path: /admin/extension/remove-data
+    controller: App\Controllers\Admin\ExtensionController::remove_data
+    methods: [POST]
+
   admin_extension_form_submit:
     path: /admin/extension/form-submit
     controller: App\Controllers\Admin\ExtensionController::form_submit

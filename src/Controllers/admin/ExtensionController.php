@@ -31,14 +31,41 @@ class ExtensionController extends Controller
     public function view()
     {
       $name = $this->App->request->getBody('name');
-      $form = $this->App->extension->getForm($name, true, 1);
+      $type = $this->App->extension->getType($name);
+      $id = $type == "single"? 1 : null;
+
+      $form = $this->App->extension->getForm($name, true, $id);
       $table = $this->App->extension->getTable($form['table']);
 
       $this->render('admin/extension/form', [
+        "package" => $name,
+        "extension" => $this->App->extension,
         "form" => $form,
         "table" => $table,
       ]);
     }
+
+    public function remove_data()
+    {  
+      if (isset($_SERVER['HTTP_REFERER'])) {
+        $referrer = $_SERVER['HTTP_REFERER'];
+        $parsedUrl = parse_url($referrer);
+        $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+        $query = isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '';
+        $referrerWithoutBaseUrl = $path . $query;
+
+
+        $table = $this->App->request->getBody('table');
+        $id = $this->App->request->getBody('id');
+
+        $this->App->db->execute("DELETE FROM $table WHERE id = $id");
+
+        $this->App->session->setFlash("notification_success", "Data successfully removed.");
+        $this->App->response->redirect(htmlspecialchars($referrerWithoutBaseUrl));
+      }
+      
+    }
+
     public function form_submit()
     {  
       if (isset($_SERVER['HTTP_REFERER'])) {
@@ -60,17 +87,19 @@ class ExtensionController extends Controller
         unset($forms['data']['type']);
         unset($forms['data']['table']);
 
-        $id = $type == "single"? 1 : null;
+        $id = $type == "single"? 1 : $this->App->request->getBody('id') ?? null;
         $query = $this->generateInsertSQL($table, $forms['data']);
         if($type == 'single'){
           $stmt = $this->App->db->fetch("SELECT * FROM $table");
           if($stmt){
             $query = $this->generateUpdateSQL($table, $forms['data'], $id);
           }
+        } else {
+          if($id){
+            $query = $this->generateUpdateSQL($table, $forms['data'], $id);
+          }
         }
         $this->App->db->execute($query); 
-
-
         $this->App->session->setFlash("notification_success", "Data successfully saved.");
         $this->App->response->redirect(htmlspecialchars($referrerWithoutBaseUrl));
       }
