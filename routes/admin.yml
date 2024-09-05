@@ -68,3 +68,8 @@ routes:
     path: /admin/appearance/save
     controller: App\Controllers\Admin\AppearanceController::save
     methods: [GET]
+  
+  admin_menu:
+    path: /admin/menu
+    controller: App\Controllers\Admin\MenuController::index
+    methods: [GET]

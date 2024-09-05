@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc91022cb923f0c33a29e976afd1b1a2",
+    "content-hash": "ab8640386b73a6ccbdc480ab688a82d8",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -226,16 +226,16 @@
         },
         {
             "name": "salad-dressing/image-banner",
-            "version": "0.0.3",
+            "version": "0.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/salad-stack/salad-dressing-image-banner.git",
-                "reference": "c82dc371c64a21fb7d8decc05f7d5fde113577b1"
+                "reference": "3a8be09f1f8190cd158ef68b24f81f280b3a8bec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/salad-stack/salad-dressing-image-banner/zipball/c82dc371c64a21fb7d8decc05f7d5fde113577b1",
-                "reference": "c82dc371c64a21fb7d8decc05f7d5fde113577b1",
+                "url": "https://api.github.com/repos/salad-stack/salad-dressing-image-banner/zipball/3a8be09f1f8190cd158ef68b24f81f280b3a8bec",
+                "reference": "3a8be09f1f8190cd158ef68b24f81f280b3a8bec",
                 "shasum": ""
             },
             "require": {
@@ -282,22 +282,22 @@
             "description": "SaladStack Image Banner extension",
             "support": {
                 "issues": "https://github.com/salad-stack/salad-dressing-image-banner/issues",
-                "source": "https://github.com/salad-stack/salad-dressing-image-banner/tree/0.0.3"
+                "source": "https://github.com/salad-stack/salad-dressing-image-banner/tree/0.0.4"
             },
-            "time": "2024-09-04T23:26:14+00:00"
+            "time": "2024-09-05T07:23:32+00:00"
         },
         {
             "name": "salad-dressing/mailer",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/salad-stack/salad-dressing-mailer.git",
-                "reference": "daa914d319787866b4759cc5c83511c5d9dcd1fc"
+                "reference": "720df4eb7b4151800350232ac0f23fae47cd05d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/salad-stack/salad-dressing-mailer/zipball/daa914d319787866b4759cc5c83511c5d9dcd1fc",
-                "reference": "daa914d319787866b4759cc5c83511c5d9dcd1fc",
+                "url": "https://api.github.com/repos/salad-stack/salad-dressing-mailer/zipball/720df4eb7b4151800350232ac0f23fae47cd05d2",
+                "reference": "720df4eb7b4151800350232ac0f23fae47cd05d2",
                 "shasum": ""
             },
             "require": {
@@ -338,22 +338,22 @@
             "description": "SaladStack Mailer extension",
             "support": {
                 "issues": "https://github.com/salad-stack/salad-dressing-mailer/issues",
-                "source": "https://github.com/salad-stack/salad-dressing-mailer/tree/1.0.2"
+                "source": "https://github.com/salad-stack/salad-dressing-mailer/tree/1.0.3"
             },
-            "time": "2024-09-04T14:31:27+00:00"
+            "time": "2024-09-05T07:23:18+00:00"
         },
         {
             "name": "salad-stack/core",
-            "version": "1.0.5",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/salad-stack/salad-stack-core.git",
-                "reference": "0a8d0cd80d00b568a26741e1fdac32adcd9c507b"
+                "reference": "63caafb600ba3ff786a712bf8f486d4888fbf075"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/salad-stack/salad-stack-core/zipball/0a8d0cd80d00b568a26741e1fdac32adcd9c507b",
-                "reference": "0a8d0cd80d00b568a26741e1fdac32adcd9c507b",
+                "url": "https://api.github.com/repos/salad-stack/salad-stack-core/zipball/63caafb600ba3ff786a712bf8f486d4888fbf075",
+                "reference": "63caafb600ba3ff786a712bf8f486d4888fbf075",
                 "shasum": ""
             },
             "require": {
@@ -377,9 +377,9 @@
             ],
             "support": {
                 "issues": "https://github.com/salad-stack/salad-stack-core/issues",
-                "source": "https://github.com/salad-stack/salad-stack-core/tree/1.0.5"
+                "source": "https://github.com/salad-stack/salad-stack-core/tree/1.0.7"
             },
-            "time": "2024-09-04T14:02:24+00:00"
+            "time": "2024-09-05T08:08:44+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

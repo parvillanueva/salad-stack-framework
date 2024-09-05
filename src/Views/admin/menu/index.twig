@@ -1,0 +1,132 @@
+{% extends 'template/admin/_post.twig' %}
+{% block page_name %}Site Menu{% endblock %}
+{% block body %}
+  <style>
+    ul#nestedList {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+
+    ul#nestedList li {
+      margin: 5px 0;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      cursor: grab;
+    }
+
+    ul#nestedList li.dragging {
+      opacity: 0.5;
+    }
+  </style>
+  <section class="content">
+    <div class="card-body">
+      <form id="nestedForm" method="POST" action="/submit">
+        <ul id="nestedList"></ul>
+        <button type="button" class="btn btn-warning" onclick="addMainItem()">Add Menu Item</button>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+   let draggedItem = null;
+let overItem = null;
+
+function addDragAndDropEvents(item) {
+  item.setAttribute('draggable', 'true');
+
+  item.addEventListener('dragstart', function (e) {
+    draggedItem = this;
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => this.classList.add('dragging'), 0);
+  });
+
+  item.addEventListener('dragend', function () {
+    this.classList.remove('dragging');
+    draggedItem = null;
+  });
+
+  item.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    overItem = this;
+    e.dataTransfer.dropEffect = 'move';
+  });
+
+  item.addEventListener('drop', function (e) {
+    e.preventDefault();
+    if (draggedItem !== overItem && overItem.tagName === 'LI') {
+      const parentList = overItem.parentElement;
+      parentList.insertBefore(draggedItem, overItem.nextSibling);
+    }
+  });
+}
+
+document.querySelectorAll('#nestedList li').forEach(item => addDragAndDropEvents(item));
+
+function addItem(button) {
+  const parentLi = button.closest('li');
+  let subList = parentLi.querySelector('ul');
+  
+  if (!subList) {
+    subList = document.createElement('ul');
+    parentLi.appendChild(subList);
+  }
+
+  const index = Array.from(document.querySelectorAll('#nestedList > li')).indexOf(parentLi);
+
+  const newItem = document.createElement('li');
+  newItem.innerHTML = `
+    <input type="text" name="items[${index}][subitems][]" class="form-control mb-1" placeholder="Sub Menu Label">
+    <select name="items[${index}][subitems_option][]" class="form-control mb-1">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+    </select>
+    <button type="button" onclick="removeSubItem(this)" class="btn btn-danger" >Remove Sub Menu</button>
+  `;
+  
+  addDragAndDropEvents(newItem);
+  
+  subList.insertBefore(newItem, subList.querySelector('.add-btn'));
+}
+
+function addMainItem() {
+  const mainList = document.querySelector('#nestedList');
+
+  const newItem = document.createElement('li');
+  newItem.innerHTML = `
+    <input type="text" name="items[]" class="form-control mb-1" placeholder="Menu Label">
+    <select name="items[][option]" class="form-control mb-1">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+    </select>
+    <button type="button" class="btn btn-primary" onclick="addItem(this)">Add Sub Menu</button>
+    <button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove Menu</button>
+  `;
+  
+  addDragAndDropEvents(newItem);
+
+  mainList.appendChild(newItem);
+}
+
+function removeItem(button) {
+  const parentLi = button.closest('li');
+  parentLi.parentElement.removeChild(parentLi);
+}
+
+function removeSubItem(button) {
+  const parentLi = button.closest('li');
+  const parentUl = parentLi.parentElement;
+
+  parentUl.removeChild(parentLi);
+
+  if (parentUl.children.length === 0) {
+    parentUl.remove();
+  }
+}
+
+
+  </script>
+{% endblock %}
