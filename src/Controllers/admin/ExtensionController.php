@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 use Salad\Core\Application;
 use Salad\Core\Controller;
 use Salad\Core\Connection;
+use Salad\Core\FileUploader;
 
 class ExtensionController extends Controller
 {
@@ -27,6 +28,74 @@ class ExtensionController extends Controller
       ]);
     }
     
+    public function view()
+    {
+      $name = $this->App->request->getBody('name');
+      $form = $this->App->extension->getForm($name, true, 1);
+      $table = $this->App->extension->getTable($form['table']);
+
+      $this->render('admin/extension/form', [
+        "form" => $form,
+        "table" => $table,
+      ]);
+    }
+    public function form_submit()
+    {  
+      if (isset($_SERVER['HTTP_REFERER'])) {
+        $referrer = $_SERVER['HTTP_REFERER'];
+        $parsedUrl = parse_url($referrer);
+        $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+        $query = isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '';
+        $referrerWithoutBaseUrl = $path . $query;
+
+
+        $table = $this->App->request->getBody('table');
+        $type = $this->App->request->getBody('type');
+        $forms = $this->App->request->getAll();
+
+        foreach ($forms['files'] as $key => $file) {
+          $forms['data'][$key] = $this->App->getBaseUrl() . "/".  $this->normalizePath($this->App->uploader->upload($file)['file_path']);
+        }
+
+        unset($forms['data']['type']);
+        unset($forms['data']['table']);
+
+        $id = $type == "single"? 1 : null;
+        $query = $this->generateInsertSQL($table, $forms['data']);
+        if($type == 'single'){
+          $stmt = $this->App->db->fetch("SELECT * FROM $table");
+          if($stmt){
+            $query = $this->generateUpdateSQL($table, $forms['data'], $id);
+          }
+        }
+        $this->App->db->execute($query); 
+
+
+        $this->App->session->setFlash("notification_success", "Data successfully saved.");
+        $this->App->response->redirect(htmlspecialchars($referrerWithoutBaseUrl));
+      }
+      
+    }
+
+    function generateInsertSQL($tableName, $data) {
+      $columns = array_keys($data);
+      $columnsList = implode(', ', array_map(fn($col) => "`$col`", $columns));
+      $values = array_map(fn($value) => "'" . addslashes($value) . "'", array_values($data));
+      $valuesList = "(" . implode(', ', $values) . ")";
+      
+      return "INSERT INTO `$tableName` ($columnsList) VALUES $valuesList;";
+    }
+
+    function generateUpdateSQL($tableName, $data, $id) {
+      $setParts = [];
+      foreach ($data as $field => $value) {
+          $setParts[] = "`$field` = '" . addslashes($value) . "'";
+      }
+      $setSQL = implode(', ', $setParts);
+      return "UPDATE `$tableName` SET $setSQL WHERE id=$id;";
+  }
+  
+    
     public function enable()
     {
       $name = $this->App->request->getBody('name');
@@ -46,10 +115,6 @@ class ExtensionController extends Controller
         }
       };
 
-      //update routes
-      $this->copyDirectory($package_path . "/routes/", Application::$ROOT_DIR . "/routes/");
-
-
       //update .env file
       $this->updateEnvFile("EXTENSION_" . $package['name'], "true");
       $this->App->response->redirect("/admin/extension");
@@ -64,12 +129,6 @@ class ExtensionController extends Controller
       $install_path = $package['install-path'];
       $package_path = Application::$ROOT_DIR ."/vendor/" . $this->normalizePath($install_path);
 
-      $routes = $this->scanDirRoutes($package_path . "/routes/", $install_path);
-      foreach ($routes as $key => $route) {
-        if (file_exists($route)) {
-          unlink($route);
-        }
-      }
 
       $migrations = $this->scanDirRecursive($package_path . "/migrations/", $install_path);
       foreach ($migrations as $key => $migration) {

@@ -1,0 +1,23 @@
+
+<script src="{{ asset('js/site.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function (event) {
+            const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+            if (form.classList.contains('is-submitting')) {
+                event.preventDefault(); 
+                return false;
+            }
+            form.classList.add('is-submitting');
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Submitting...'; 
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

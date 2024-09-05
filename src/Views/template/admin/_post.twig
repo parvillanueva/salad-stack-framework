@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {% include 'template/admin/header.twig' %}
+    <style>{% block page_style %}{% endblock %}</style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -28,6 +29,7 @@
     </div>
 
     {% include 'template/admin/footer.twig' %}
+    <script>{% block page_script %}{% endblock %}</script>
 </body>
 </body>
 </html>

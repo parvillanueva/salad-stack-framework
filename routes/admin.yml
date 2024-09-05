@@ -33,6 +33,16 @@ routes:
     path: /admin/extension
     controller: App\Controllers\Admin\ExtensionController::index
     methods: [GET]
+
+  admin_extension_view:
+    path: /admin/extension/view
+    controller: App\Controllers\Admin\ExtensionController::view
+    methods: [GET]
+
+  admin_extension_form_submit:
+    path: /admin/extension/form-submit
+    controller: App\Controllers\Admin\ExtensionController::form_submit
+    methods: [POST]
   
   admin_extension_enable:
     path: /admin/extension/enable

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d42a02b018278eded145d4d4fc8511f9",
+    "content-hash": "bc91022cb923f0c33a29e976afd1b1a2",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -223,6 +223,68 @@
                 }
             ],
             "time": "2024-07-20T21:41:07+00:00"
+        },
+        {
+            "name": "salad-dressing/image-banner",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/salad-stack/salad-dressing-image-banner.git",
+                "reference": "c82dc371c64a21fb7d8decc05f7d5fde113577b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/salad-stack/salad-dressing-image-banner/zipball/c82dc371c64a21fb7d8decc05f7d5fde113577b1",
+                "reference": "c82dc371c64a21fb7d8decc05f7d5fde113577b1",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": "^3.12"
+            },
+            "type": "salad-section",
+            "extra": {
+                "salad-extension": {
+                    "title": "Image Banner",
+                    "category": "feature",
+                    "icon": "fas fa-image"
+                },
+                "resources": {
+                    "migration": [
+                        "CreateImageBannerTable.php"
+                    ]
+                },
+                "navigation": {
+                    "admin": "/admin/image-banner"
+                },
+                "section": {
+                    "render": "base_image_banner",
+                    "style": "assets/css/style.css",
+                    "scrtipt": "assets/js/script.js",
+                    "extension": "\\Salad\\Dressing\\ImageBanner\\Extensions\\TwigExtension"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Salad\\Dressing\\ImageBanner\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "King Villanueva",
+                    "email": "mrkong.villanueva@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "SaladStack Image Banner extension",
+            "support": {
+                "issues": "https://github.com/salad-stack/salad-dressing-image-banner/issues",
+                "source": "https://github.com/salad-stack/salad-dressing-image-banner/tree/0.0.3"
+            },
+            "time": "2024-09-04T23:26:14+00:00"
         },
         {
             "name": "salad-dressing/mailer",

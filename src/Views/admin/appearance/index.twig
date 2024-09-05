@@ -1,4 +1,5 @@
 {% extends 'template/admin/_post.twig' %}
+{% block page_name %}Site Appearance{% endblock %}
 {% block body %}
   <section class="content">
     <form action="{{ '/admin/appearance/save' | base_url }}" method="post">
@@ -13,9 +14,6 @@
           </div>
       {% endif %}
       <div class="card-body">
-        <h2>Site Appearance</h2>
-        <p>Customize styles and other variables.</p>
-
         <h4>Custom Header</h4>
         <p>Add HTML to be displayed at the very top of the page, above SaladStack's own header.</p>
         <textarea class="form-control mb-5" name="custom_header" rows=10 placeholder="Custom Header"></textarea>
