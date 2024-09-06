@@ -23,7 +23,6 @@
         <thead>
             <tr>
                 <th scope="col">Title</th>
-                <th scope="col">Content</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -32,7 +31,6 @@
           {% set sliced_content = item.content | slice(0, 100) ~ '...'  %}
             <tr>
                 <td>{{ item.title }}</td>
-                <td>{{ sliced_content | raw}}</td>
                 <td width=200>
                   <a href="{{ '/admin/content/edit' | base_url }}?id={{ item.id }}" class="btn btn-primary"><i class="fas fa-pen"></i></a>
                   <button onclick="confirmDelete({{item.id}})" class="btn btn-danger"><i class="fas fa-trash"></i></button>

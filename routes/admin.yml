@@ -99,6 +99,11 @@ routes:
     controller: App\Controllers\Admin\ContentsController::update
     methods: [POST]
   
+  admin_content_upload:
+    path: /admin/content/upload
+    controller: App\Controllers\Admin\ContentsController::upload
+    methods: [POST]
+  
   admin_content_remove:
     path: /admin/content/remove
     controller: App\Controllers\Admin\ContentsController::remove
