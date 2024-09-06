@@ -64,6 +64,14 @@ function addDragAndDropEvents(item) {
 
 document.querySelectorAll('#nestedList li').forEach(item => addDragAndDropEvents(item));
 
+function updateSelectVisibility(item) {
+  const selectElement = item.querySelector('select');
+  if (selectElement) {
+    const hasSubitems = item.querySelector('ul') !== null;
+    selectElement.style.display = hasSubitems ? 'none' : 'inline';
+  }
+}
+
 function addItem(button) {
   const parentLi = button.closest('li');
   let subList = parentLi.querySelector('ul');
@@ -83,12 +91,15 @@ function addItem(button) {
       <option value="option2">Option 2</option>
       <option value="option3">Option 3</option>
     </select>
-    <button type="button" onclick="removeSubItem(this)" class="btn btn-danger" >Remove Sub Menu</button>
+    <button type="button" onclick="removeSubItem(this)" class="btn btn-danger">Remove Sub Menu</button>
   `;
   
   addDragAndDropEvents(newItem);
   
   subList.insertBefore(newItem, subList.querySelector('.add-btn'));
+  
+  // Update the visibility of the select dropdown
+  updateSelectVisibility(parentLi);
 }
 
 function addMainItem() {
@@ -109,11 +120,17 @@ function addMainItem() {
   addDragAndDropEvents(newItem);
 
   mainList.appendChild(newItem);
+  
+  // Update the visibility of the select dropdown
+  updateSelectVisibility(newItem);
 }
 
 function removeItem(button) {
   const parentLi = button.closest('li');
   parentLi.parentElement.removeChild(parentLi);
+  
+  // Optionally update visibility of any remaining items
+  document.querySelectorAll('#nestedList li').forEach(item => updateSelectVisibility(item));
 }
 
 function removeSubItem(button) {
@@ -125,8 +142,12 @@ function removeSubItem(button) {
   if (parentUl.children.length === 0) {
     parentUl.remove();
   }
+  
+  // Update visibility of the parent item
+  if (parentUl.parentElement) {
+    updateSelectVisibility(parentUl.parentElement);
+  }
 }
-
 
   </script>
 {% endblock %}

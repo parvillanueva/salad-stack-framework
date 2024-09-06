@@ -1,0 +1,73 @@
+{% extends 'template/admin/_post.twig' %}
+{% block page_name %}Site Content{% endblock %}
+{% block body %}
+  <style>
+    .ck-editor__editable {
+        min-height: 300px; /* Adjust this value as needed */
+    }
+  </style>
+  <section class="content">
+    <div class="card-body">
+      {% if get_flash_message("notification_warning") %}
+          <div class="alert alert-warning" role="alert">
+              {{get_flash_message("notification_warning")}}
+          </div>
+      {% endif %}
+      {% if get_flash_message("notification_success") %}
+          <div class="alert alert-success" role="alert">
+              {{get_flash_message("notification_success")}}
+          </div>
+      {% endif %}
+      <a href="{{ '/admin/content/add' | base_url }}" class="btn btn-success mb-4">Add Content</a>
+      <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for item in data %}
+          {% set sliced_content = item.content | slice(0, 100) ~ '...'  %}
+            <tr>
+                <td>{{ item.title }}</td>
+                <td>{{ sliced_content | raw}}</td>
+                <td width=200>
+                  <a href="{{ '/admin/content/edit' | base_url }}?id={{ item.id }}" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                  <button onclick="confirmDelete({{item.id}})" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </section>
+
+   <script>
+    function confirmDelete(id) {
+      const userConfirmed = confirm("Are you sure you want to delete this item?");
+      if (userConfirmed) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{{ '/admin/content/remove' | base_url }}"; 
+        
+        const idField = document.createElement('input');
+        idField.type = 'text';
+        idField.name = 'id';
+        idField.value = id;
+        idField.required = true;
+
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = 'Submit';
+        submitButton.className = 'btn btn-primary';
+
+        form.appendChild(idField);
+        form.appendChild(submitButton);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    }
+</script>
+{% endblock %}

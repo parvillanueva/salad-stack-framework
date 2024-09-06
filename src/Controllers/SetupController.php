@@ -59,4 +59,8 @@ class SetupController
             file_put_contents($path, $envContent);
         }
     }
+
+    public function migrateAll() {
+        (new Connection())->migrateAll();
+    }
 }

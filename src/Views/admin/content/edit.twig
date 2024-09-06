@@ -1,0 +1,91 @@
+{% extends 'template/admin/_post.twig' %}
+{% block page_name %}Site Content{% endblock %}
+{% block body %}
+  <style>
+    .ck-editor__editable {
+        min-height: 300px; /* Adjust this value as needed */
+    }
+  </style>
+  <section class="content">
+    <div class="card-body">
+      {% if get_flash_message("notification_warning") %}
+          <div class="alert alert-warning" role="alert">
+              {{get_flash_message("notification_warning")}}
+          </div>
+      {% endif %}
+      {% if get_flash_message("notification_success") %}
+          <div class="alert alert-success" role="alert">
+              {{get_flash_message("notification_success")}}
+          </div>
+      {% endif %}
+      <form id="nestedForm" method="POST" action="{{ '/admin/content/update' | base_url }}">  
+        <input type="text" hidden name="id" required value="{{ data.id }}">  
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" name="title" class="form-control" required value="{{ data.title }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Content</label>
+          <textarea name="content" class="editor">{{ data.content }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      <a href="{{ '/admin/content' | base_url }}" class="btn btn-secondary">Back</a>
+       </form>
+    </div>
+  </section>
+
+  <script>
+    class CustomUploadAdapter {
+      constructor(loader) {
+        this.loader = loader;
+      }
+
+      upload() {
+        return this.loader.file
+          .then(file => new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('upload', file);
+
+            fetch("{{ '/admin/content/upload' | base_url }}", {
+              method: 'POST',
+              body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+              resolve({
+                default: data.url // URL of the uploaded image
+              });
+            })
+            .catch(error => {
+              reject(error);
+            });
+          }));
+      }
+
+      abort() {
+        // Handle abort if necessary
+      }
+    }
+
+    function MyCustomUploadAdapterPlugin(editor) {
+      editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+        return new CustomUploadAdapter(loader);
+      };
+    }
+
+    document.querySelectorAll('.editor').forEach((element) => {
+      ClassicEditor.create(element, {
+        extraPlugins: [MyCustomUploadAdapterPlugin],
+        toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', 'insertTable', 'undo', 'redo']
+      })
+      .then(editor => {
+        console.log('Editor initialized:', editor);
+      })
+      .catch(error => {
+        console.error('There was a problem initializing the editor:', error);
+      });
+
+    });
+    
+  </script>
+{% endblock %}

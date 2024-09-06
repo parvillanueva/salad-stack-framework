@@ -73,3 +73,38 @@ routes:
     path: /admin/menu
     controller: App\Controllers\Admin\MenuController::index
     methods: [GET]
+  
+  admin_content:
+    path: /admin/content
+    controller: App\Controllers\Admin\ContentsController::index
+    methods: [GET]
+  
+  admin_content_add:
+    path: /admin/content/add
+    controller: App\Controllers\Admin\ContentsController::add
+    methods: [GET]
+  
+  admin_content_create:
+    path: /admin/content/create
+    controller: App\Controllers\Admin\ContentsController::create
+    methods: [POST]
+  
+  admin_content_edit:
+    path: /admin/content/edit
+    controller: App\Controllers\Admin\ContentsController::edit
+    methods: [GET]
+  
+  admin_content_update:
+    path: /admin/content/update
+    controller: App\Controllers\Admin\ContentsController::update
+    methods: [POST]
+  
+  admin_content_remove:
+    path: /admin/content/remove
+    controller: App\Controllers\Admin\ContentsController::remove
+    methods: [POST]
+
+  migrate:
+    path: /admin/migrate
+    controller: App\Controllers\SetupController::migrateAll
+    methods: [GET]

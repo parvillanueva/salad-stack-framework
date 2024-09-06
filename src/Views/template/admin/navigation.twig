@@ -49,9 +49,9 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ '/admin/content' | base_url }}" class="nav-link {{ get_request_uri() == '/admin/content' ? "active" : ""}}">
                         <i class="nav-icon fas fa-pen"></i>
-                        <p> Details </p>
+                        <p> Content </p>
                     </a>
                 </li>
 
