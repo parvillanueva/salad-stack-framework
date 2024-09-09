@@ -109,6 +109,42 @@ routes:
     controller: App\Controllers\Admin\ContentsController::remove
     methods: [POST]
 
+  
+  admin_pages:
+    path: /admin/pages
+    controller: App\Controllers\Admin\PagesController::index
+    methods: [GET]
+  
+  admin_pages_add:
+    path: /admin/pages/add
+    controller: App\Controllers\Admin\PagesController::add
+    methods: [GET]
+  
+  admin_pages_create:
+    path: /admin/pages/create
+    controller: App\Controllers\Admin\PagesController::create
+    methods: [POST]
+  
+  admin_pages_remove:
+    path: /admin/pages/remove
+    controller: App\Controllers\Admin\PagesController::remove
+    methods: [POST]
+  
+  admin_pages_edit:
+    path: /admin/pages/edit
+    controller: App\Controllers\Admin\PagesController::edit
+    methods: [GET]
+
+  admin_pages_update:
+    path: /admin/pages/update
+    controller: App\Controllers\Admin\PagesController::update
+    methods: [POST]
+
+  admin_pages_set_home:
+    path: /admin/pages/set-home
+    controller: App\Controllers\Admin\PagesController::set_home
+    methods: [GET]
+
   migrate:
     path: /admin/migrate
     controller: App\Controllers\SetupController::migrateAll

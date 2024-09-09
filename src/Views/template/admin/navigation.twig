@@ -56,7 +56,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ '/admin/pages' | base_url }}" class="nav-link {{ get_request_uri() == '/admin/pages' ? "active" : ""}}">
                         <i class="nav-icon fas fa-file"></i>
                         <p> Pages </p>
                     </a>

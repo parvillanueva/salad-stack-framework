@@ -4,150 +4,129 @@ namespace App\Controllers\Admin;
 use Salad\Core\Application;
 use Salad\Core\Controller;
 use Salad\Core\View;
-
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-
-use App\Components\Navigation;
+use App\Models\Content;
 
 class ContentsController extends Controller
 {
-    private $App;
-    private $twig;
+    protected $app;
     protected $view;
+    protected $content;
+    protected $twig;
 
     public function __construct()
     {
-      parent::__construct();   
-      $this->App = Application::$app;
-      $this->view = new View;
-      $this->twig = $this->view->getTwigEnv();
+        parent::__construct();   
+        $this->app = Application::$app;
+        $this->view = new View;
+        $this->content = new Content;
+        $this->twig = $this->view->getTwigEnv();
+        $this->checkUserAuthentication();
     }
     
+    private function checkUserAuthentication()
+    {
+        $userId = $this->app->session->get('user_id');
+        if (!$userId) {
+            $this->app->response->redirect("/admin/login");
+        }
+    }
+
     public function index()
     {
-      $data = $this->App->db->fetchAll("SELECT * FROM site_contents");
-      $this->render('admin/content/index', [ "data" => $data]);
+        $data = $this->content->fetchAll();
+        $this->render('admin/content/index', ["data" => $data]);
     }
     
     public function add()
     {
-      $this->render('admin/content/add');
+        $this->render('admin/content/add');
     }
-    
     
     public function edit()
     {
-      $id = $this->App->request->getBody('id');
-      if(!$id){
-        $this->App->session->setFlash("notification_warning", "Content not found.");
-        $this->App->response->redirect("/admin/content");
-      }
-      $data = $this->App->db->fetch("SELECT * FROM site_contents WHERE id = $id");
+        $id = $this->app->request->getBody('id');
+        
+        if (!$id || !$data = $this->content->findById($id)) {
+            $this->handleNotFound("/admin/content", "Content not found.");
+        }
 
-      if(!$data){
-        $this->App->session->setFlash("notification_warning", "Content not found.");
-        $this->App->response->redirect("/admin/content");
-      }
-      $this->render('admin/content/edit', ["data" => $data]);
+        $this->render('admin/content/edit', ["data" => $data]);
     }
     
     public function update()
     {
-       
-      $id = $this->App->request->getBody('id');
-      $title = $this->App->request->getBody('title');
-      $content = $this->App->request->getBody('content');
+        $id = $this->app->request->getBody('id');
+        $title = trim($this->app->request->getBody('title'));
+        $content = trim($this->app->request->getBody('content'));
 
-      if(
-        trim($title) == "" |
-        trim($content) == ""
-      ){
-        $this->App->session->setFlash("notification_warning", "Fill all the required fields.");
-        $this->App->response->redirect("/admin/content/add");
-      }
-      $data = $this->App->db->fetch("SELECT * FROM site_contents WHERE id = $id");
+        if (empty($title) || empty($content)) {
+            $this->handleValidationError("/admin/content/add", "Fill all the required fields.");
+        }
 
-      if(!$data){
-        $this->App->session->setFlash("notification_warning", "Content not found.");
-        $this->App->response->redirect("/admin/content");
-      }
+        if (!$this->content->findById($id)) {
+            $this->handleNotFound("/admin/content", "Content not found.");
+        }
 
+        $this->content->updateContent($id, $title, htmlspecialchars_decode($content));
 
-      $this->App->db->execute("UPDATE site_contents SET title=:title, content=:content WHERE id=$id", [":title" => $title, ":content" => htmlspecialchars_decode($content)]);
-
-
-      $this->App->session->setFlash("notification_success", "Content successfully saved.");
-      $this->App->response->redirect("/admin/content");
-
+        $this->handleSuccess("/admin/content", "Content successfully saved.");
     }
     
     public function create()
     {
-       
-      $title = $this->App->request->getBody('title');
-      $content = $this->App->request->getBody('content');
+        $title = trim($this->app->request->getBody('title'));
+        $content = trim($this->app->request->getBody('content'));
 
-      if(
-        trim($title) == "" |
-        trim($content) == ""
-      ){
-        $this->App->session->setFlash("notification_warning", "Fill all the required fields.");
-        $this->App->response->redirect("/admin/content/add");
-      }
-      $this->App->db->execute("INSERT INTO site_contents (title, content) VALUES (:title, :content);", [":title" => $title, ":content" => htmlspecialchars_decode($content)]);
+        if (empty($title) || empty($content)) {
+            $this->handleValidationError("/admin/content/add", "Fill all the required fields.");
+        }
 
-      $this->App->session->setFlash("notification_success", "Content successfully saved.");
-      $this->App->response->redirect("/admin/content");
+        $this->content->createContent($title, htmlspecialchars_decode($content));
 
+        $this->handleSuccess("/admin/content", "Content successfully saved.");
     }
     
     public function upload()
     {
-      $forms = $this->App->request->getAll();
-      echo json_encode( [
-        "url" => $this->App->getBaseUrl() . "/".  $this->normalizePath($this->App->uploader->upload($forms['files']['upload'])['file_path'])
-      ]);
+        $filePath = $this->app->uploader->upload($this->app->request->getAll()['files']['upload'])['file_path'];
+        echo json_encode(["url" => $this->app->getBaseUrl() . "/" . $this->app->normalizePath($filePath)]);
     }
-
 
     public function remove()
     {  
-      if (isset($_SERVER['HTTP_REFERER'])) {
-        $referrer = $_SERVER['HTTP_REFERER'];
-        $parsedUrl = parse_url($referrer);
-        $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
-        $query = isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '';
-        $referrerWithoutBaseUrl = $path . $query;
+        $id = $this->app->request->getBody('id');
+        $this->content->removeById($id);
 
-        $id = $this->App->request->getBody('id');
-
-        $this->App->db->execute("DELETE FROM site_contents WHERE id = $id");
-
-        $this->App->session->setFlash("notification_success", "Data successfully removed.");
-        $this->App->response->redirect(htmlspecialchars($referrerWithoutBaseUrl));
-      }
+        $referrerUrl = $this->getReferrerUrl();
+        $this->handleSuccess($referrerUrl, "Data successfully removed.");
     }
 
-    function normalizePath($path) {
-      $parts = explode('/', $path);
-      $stack = [];
-
-      foreach ($parts as $part) {
-          if ($part === '' || $part === '.') {
-              continue;
-          }
-          
-          if ($part === '..') {
-              if (!empty($stack)) {
-                  array_pop($stack);
-              }
-          } else {
-              $stack[] = $part;
-          }
-      }
-      return implode('/', $stack);
+    private function handleNotFound($redirectUrl, $message)
+    {
+        $this->app->session->setFlash("notification_warning", $message);
+        $this->app->response->redirect($redirectUrl);
     }
 
+    private function handleValidationError($redirectUrl, $message)
+    {
+        $this->app->session->setFlash("notification_warning", $message);
+        $this->app->response->redirect($redirectUrl);
+    }
 
+    private function handleSuccess($redirectUrl, $message)
+    {
+        $this->app->session->setFlash("notification_success", $message);
+        $this->app->response->redirect($redirectUrl);
+    }
+
+    private function getReferrerUrl()
+    {
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $parsedUrl = parse_url($_SERVER['HTTP_REFERER']);
+            $path = $parsedUrl['path'] ?? '';
+            $query = isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '';
+            return htmlspecialchars($path . $query);
+        }
+        return "/admin/content";
+    }
 }

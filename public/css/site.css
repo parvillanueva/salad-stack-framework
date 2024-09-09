@@ -85,3 +85,44 @@ body {
     height: calc(100vh - 50px);
   }
 }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Mobile-first styles */
+.container {
+  width: 100%;
+  padding: 15px;
+  margin: 0 auto;
+  box-shadow: none;
+}
+
+/* Tablet breakpoint (similar to Bootstrap’s sm) */
+@media (min-width: 576px) {
+  .container {
+      width: 90%;
+  }
+}
+
+/* Desktop breakpoint (similar to Bootstrap’s md) */
+@media (min-width: 768px) {
+  .container {
+      width: 85%;
+  }
+}
+
+/* Large desktop breakpoint (similar to Bootstrap’s lg) */
+@media (min-width: 992px) {
+  .container {
+      width: 80%;
+  }
+}
+
+/* Extra large desktop breakpoint (similar to Bootstrap’s xl) */
+@media (min-width: 1200px) {
+  .container {
+      width: 75%;
+  }
+}

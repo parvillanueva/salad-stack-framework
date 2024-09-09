@@ -1,0 +1,167 @@
+{% extends 'template/admin/_post.twig' %}
+{% block page_name %}Site Page{% endblock %}
+{% block body %}
+  <style>
+        .option-list {
+            list-style: none;
+            padding: 0;
+        }
+        .option-list li {
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            cursor: move;
+        }
+        .nested-option-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+  </style>
+  <section class="content">
+    <div class="card-body">
+      {% if get_flash_message("notification_warning") %}
+          <div class="alert alert-warning" role="alert">
+              {{get_flash_message("notification_warning")}}
+          </div>
+      {% endif %}
+      {% if get_flash_message("notification_success") %}
+          <div class="alert alert-success" role="alert">
+              {{get_flash_message("notification_success")}}
+          </div>
+      {% endif %}
+
+      <form id="nestedForm" method="POST" action="{{ '/admin/pages/create' | base_url }}">    
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" name="title" id="title" class="form-control"  oninput="convertToSlug()" placeholder="Page Title" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Slug</label>
+          <input type="text" name="slug" id="slug" readonly class="form-control" placeholder="Slug" required>
+        </div>
+        
+        <a class="btn btn-primary mb-3" onclick="addPageSectionItem()">Add Page Section</a>
+        <ul id="nestedList" class="option-list"></ul>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+      let draggedItem = null;
+      let overItem = null;
+      const contents = {{ contents | json_encode() | raw }};
+      function convertToSlug() {
+
+        const input1 = document.getElementById('title').value;
+        const slug = input1
+            .toLowerCase()                   // Convert to lowercase
+            .trim()                          // Remove leading and trailing whitespace
+            .replace(/[^a-z0-9 -]/g, '')    // Remove non-alphanumeric characters except space and dash
+            .replace(/\s+/g, '-')            // Replace spaces with dashes
+            .replace(/-+/g, '-');           // Replace multiple dashes with a single dash
+
+        document.getElementById('slug').value = slug;
+      }
+
+        function addDragAndDropEvents(item) {
+            item.setAttribute('draggable', 'true');
+
+            item.addEventListener('dragstart', function (e) {
+                draggedItem = this;
+                e.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => this.classList.add('dragging'), 0);
+            });
+
+            item.addEventListener('dragend', function () {
+                this.classList.remove('dragging');
+                draggedItem = null;
+            });
+
+            item.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                overItem = this;
+                e.dataTransfer.dropEffect = 'move';
+            });
+
+            item.addEventListener('drop', function (e) {
+                e.preventDefault();
+                if (draggedItem !== overItem && overItem.tagName === 'LI') {
+                    const parentList = overItem.parentElement;
+                    parentList.insertBefore(draggedItem, overItem.nextSibling);
+                }
+            });
+        }
+
+        document.querySelectorAll('#nestedList li').forEach(item => addDragAndDropEvents(item));
+
+        function updateSelectVisibility(item) {
+            const selectElement = item.querySelector('select');
+            if (selectElement) {
+                const hasSubitems = item.querySelector('ul') !== null;
+                selectElement.style.display = hasSubitems ? 'none' : 'inline';
+            }
+        }
+
+        function addPageSectionItem() {
+            const mainList = document.querySelector('#nestedList');
+
+
+            const newItem = document.createElement('li');
+            let select = '<div class="input-group">';
+              select += '<select name="section[]" class="form-control">';
+              select += '<optgroup label="Contents">';
+                {% for content in contents %}
+                  select += '<option value="salad-content/{{ content.id }}">{{ content.title }}</option>';
+                {% endfor %}
+              select += '</optgroup>';
+
+              select += '<optgroup label="Extensions">';
+                {% for section in sections %}
+                  select += '<option value="{{ section.id }}">{{ section.title }}</option>';
+                {% endfor %}
+              select += '</optgroup>';
+              
+              select += `</select>
+              <button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove</button>
+              </div>
+            `;
+
+            newItem.innerHTML = select;
+            
+            addDragAndDropEvents(newItem);
+
+            mainList.appendChild(newItem);
+            
+            // Update the visibility of the select dropdown
+            updateSelectVisibility(newItem);
+        }
+
+        function removeItem(button) {
+            const parentLi = button.closest('li');
+            parentLi.parentElement.removeChild(parentLi);
+            
+            // Optionally update visibility of any remaining items
+            document.querySelectorAll('#nestedList li').forEach(item => updateSelectVisibility(item));
+        }
+
+        function removeSubItem(button) {
+            const parentLi = button.closest('li');
+            const parentUl = parentLi.parentElement;
+
+            parentUl.removeChild(parentLi);
+
+            if (parentUl.children.length === 0) {
+                parentUl.remove();
+            }
+            
+            // Update visibility of the parent item
+            if (parentUl.parentElement) {
+                updateSelectVisibility(parentUl.parentElement);
+            }
+        }
+        addPageSectionItem();
+    </script>
+{% endblock %}

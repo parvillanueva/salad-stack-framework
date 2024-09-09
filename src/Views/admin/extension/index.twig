@@ -8,7 +8,7 @@
             <tr>
               <th scope="col">package</th>
               <th scope="col">Extension</th>
-              <th scope="col">Action</th>
+              <th scope="col" style="text-align: center;">Enable</th>
             </tr>
           </thead>
           <tbody>
@@ -22,18 +22,24 @@
                 <i class="{{ feature.extra['salad-extension'].icon }}"></i> <strong>{{ feature.extra['salad-extension'].title }}</strong><br />
                 {{ feature.description }}
               </td>
-              <td>
-                {% if check_extension_enabled(feature.name) %}
-                    <a href="#" disabled class="btn btn-secondary disabled">Enable</a>
-                    <a href="{{ '/admin/extension/disable' | base_url }}?name={{feature.name }}" class="btn btn-danger">Disable</a>
-                {% else %}
-                    <a href="{{ '/admin/extension/enable' | base_url }}?name={{feature.name }}" class="btn btn-success">Enable</a>
-                    <a href="#" disabled class="btn btn-secondary disabled">Disable</a>
-                {% endif %}
+              <td  style="text-align: center;">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="toggleSwitchButton" onclick='updateExtension("{{feature.name }}",{{ check_extension_enabled(feature.name)}});' {{ check_extension_enabled(feature.name) ? "checked" : ""}}>
+                </div>
               </td>
             {% endfor %}
           </tbody>
         </table>
       </div>
   </section>
+
+  <script>
+    function updateExtension(package, status = 0){
+      if(status){
+        window.location.replace(`{{ '/admin/extension/disable' | base_url }}?name=${package}`);
+      } else {
+        window.location.replace(`{{ '/admin/extension/enable' | base_url }}?name=${package}`);
+      }
+    }
+  </script>
 {% endblock %}

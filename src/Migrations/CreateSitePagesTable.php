@@ -8,6 +8,7 @@ class CreateSitePagesTable
             title VARCHAR(255) NOT NULL,
             slug VARCHAR(255) NOT NULL,
             status INT DEFAULT 0,
+            is_home INT DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )");
 
