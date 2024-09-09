@@ -25,7 +25,12 @@ class Page
 
   public function findBySlug($slug)
   {
-    return $this->App->db->fetchAll("SELECT * FROM site_pages WHERE id = :slug", [':slug' => $slug]);
+    return $this->App->db->fetchAll("SELECT * FROM site_pages WHERE slug = :slug", [':slug' => $slug]);
+  }
+
+  public function findPageBySlug($slug)
+  {
+    return $this->App->db->fetch("SELECT * FROM site_pages WHERE slug = :slug", [':slug' => $slug]);
   }
 
   public function removeById($id)

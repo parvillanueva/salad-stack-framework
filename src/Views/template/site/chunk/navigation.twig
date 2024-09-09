@@ -10,11 +10,26 @@
       <span></span>
     </label>
   </div>
-  
   <ul class="nav-list">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Contact</a></li>
+    {% for item in get_site_menu() %}
+      {% if item.submenu | length > 0%}
+        <li class="dropdown">
+          <a href="#" class="dropbtn">{{ item.menu }}</a>
+          <ul class="dropdown-content">
+            {% for sub in item.submenu %}
+              {% set url = '/p/' ~ sub.menu_url %}
+              <li><a href="{{ url | base_url }}">{{ sub.menu }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% else %}
+        {% set url = '/p/' ~ item.menu_url %}
+        <li><a href="{{ url | base_url }}">{{item.menu}}</a></li>
+
+      {% endif %}
+      
+    {% endfor %}
   </ul>
+  
 </nav>
 <div class="container">

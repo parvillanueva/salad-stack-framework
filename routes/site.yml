@@ -13,3 +13,8 @@ routes:
     path: /setup
     controller: App\Controllers\SetupController::index
     methods: [GET]
+
+  page:
+    path: /p/{slug}
+    controller: App\Controllers\HomeController::page
+    methods: [GET,POST]

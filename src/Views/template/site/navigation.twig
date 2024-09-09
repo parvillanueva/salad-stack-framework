@@ -12,8 +12,10 @@
   </div>
   
   <ul class="nav-list">
+    {% for item in get_site_menu() %}
     <li><a href="#">Home</a></li>
     <li><a href="#">About</a></li>
     <li><a href="#">Contact</a></li>
+    {% endfor %}
   </ul>
 </nav>

@@ -35,7 +35,22 @@ class HomeController extends Controller
     public function index()
     {
       $home_page = $this->page->getHomePage();
-      $sections = $this->page_content->findByPageId($home_page['id']);
+      $page_id = 0;
+      if($home_page){
+        $page_id = $home_page['id'];
+      }
+      $sections = $this->page_content->findByPageId($page_id);
+      $this->App->renderPage($sections);
+    }
+    
+    public function page($slug)
+    {
+      $home_page = $this->page->findPageBySlug($slug);
+      $page_id = 0;
+      if($home_page){
+        $page_id = $home_page['id'];
+      }
+      $sections = $this->page_content->findByPageId($page_id);
       $this->App->renderPage($sections);
     }
 

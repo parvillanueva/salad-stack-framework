@@ -74,6 +74,11 @@ routes:
     controller: App\Controllers\Admin\MenuController::index
     methods: [GET]
   
+  admin_menu_create:
+    path: /admin/menu/create
+    controller: App\Controllers\Admin\MenuController::create
+    methods: [POST]
+  
   admin_content:
     path: /admin/content
     controller: App\Controllers\Admin\ContentsController::index
@@ -144,6 +149,7 @@ routes:
     path: /admin/pages/set-home
     controller: App\Controllers\Admin\PagesController::set_home
     methods: [GET]
+
 
   migrate:
     path: /admin/migrate
