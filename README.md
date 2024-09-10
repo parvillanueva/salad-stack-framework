@@ -1,4 +1,5 @@
 # SaladStack
+SaladStack is an open-source PHP framework designed to streamline the process of building dynamic and robust websites. With its user-friendly architecture and modular components, SaladStack provides developers with a flexible toolkit for creating scalable web applications. Its intuitive structure allows for easy customization and rapid development, making it an ideal choice for both beginners and experienced programmers looking to build modern, high-performance websites. Embrace the power of SaladStack to simplify your development workflow and bring your web projects to life with ease.
 
 ## Prerequisite 
 The easiest way to install SaladStack is to use a composer that will resolve and install the PHP dependencies required by the Flarum. Hence, just download the composer to set it up.
