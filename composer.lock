@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e11aa4c3cdad4c1b5288d47fe20c911f",
+    "content-hash": "d21a7fe638c9360e261b9c0e7dd4014b",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -145,16 +145,16 @@
         },
         {
             "name": "salad-stack/core",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/salad-stack/salad-stack-core.git",
-                "reference": "b9c8261f9574d49b1a52b4f59d1ad1ed8ef6ffb0"
+                "reference": "5a4db944d49c6b868b84320f03798c74e14909b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/salad-stack/salad-stack-core/zipball/b9c8261f9574d49b1a52b4f59d1ad1ed8ef6ffb0",
-                "reference": "b9c8261f9574d49b1a52b4f59d1ad1ed8ef6ffb0",
+                "url": "https://api.github.com/repos/salad-stack/salad-stack-core/zipball/5a4db944d49c6b868b84320f03798c74e14909b2",
+                "reference": "5a4db944d49c6b868b84320f03798c74e14909b2",
                 "shasum": ""
             },
             "require": {
@@ -178,9 +178,9 @@
             ],
             "support": {
                 "issues": "https://github.com/salad-stack/salad-stack-core/issues",
-                "source": "https://github.com/salad-stack/salad-stack-core/tree/1.0.10"
+                "source": "https://github.com/salad-stack/salad-stack-core/tree/1.0.11"
             },
-            "time": "2024-09-10T00:57:48+00:00"
+            "time": "2024-09-10T01:05:46+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
