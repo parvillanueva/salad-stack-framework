@@ -107,7 +107,7 @@ class ExtensionController extends Controller
         $installPath = Application::$ROOT_DIR . "/vendor/" . $this->App->normalizePath($package['install-path']);
 
         if ($action === 'enable') {
-            $this->copyDirectory($installPath . "/migrations/", Application::$ROOT_DIR . "/src/Migrations");
+            $this->copyDirectory($installPath . "/src/Migrations/", Application::$ROOT_DIR . "/src/Migrations");
 
             if (isset($package['extra']['resources']['migration'])) {
                 foreach ($package['extra']['resources']['migration'] as $migration) {
@@ -117,7 +117,7 @@ class ExtensionController extends Controller
 
             $this->updateEnvFile("EXTENSION_" . $package['name'], "true");
         } else {
-            $migrations = $this->scanDirRecursive($installPath . "/migrations/", $installPath);
+            $migrations = $this->scanDirRecursive($installPath . "/src/Migrations/", $installPath);
             foreach ($migrations as $migration) {
                 if (file_exists($migration)) {
                     unlink($migration);

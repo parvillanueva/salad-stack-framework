@@ -69,21 +69,22 @@ class PagesController extends Controller
 
         if ($title === '' || $slug === '' || $pageId === '') {
             $this->app->session->setFlash("notification_warning", "Fill all the required fields.");
-            $this->app->response->redirect("/admin/pages/add");
-            return;
-        }
-
-        if ($this->page->findBySlug($slug)) {
-            $this->app->session->setFlash("notification_warning", "Page already exists.");
-            $this->app->response->redirect("/admin/pages/add");
+            $this->app->response->redirect("/admin/pages/edit?id=$pageId");
             return;
         }
 
 
         $page = $this->page->findById($pageId);
+
+        if ($this->page->findBySlug($slug) && $pageId != $page['id']) {
+            $this->app->session->setFlash("notification_warning", "Page already exists.");
+            $this->app->response->redirect("/admin/pages/edit?id=$pageId");
+            return;
+        }
+
 		if(!$page){
             $this->app->session->setFlash("notification_warning", "Page not exists.");
-            $this->app->response->redirect("/admin/pages/add");
+            $this->app->response->redirect("/admin/pages/edit?id=$pageId");
 		}
 
 		//update page
